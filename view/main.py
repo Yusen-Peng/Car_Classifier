@@ -11,8 +11,8 @@ root = tk.Tk()
 root.title("Car Safety Detection")
 
 # Set window background to dark grey
-root.configure(bg='#2e2e2e')
-
+root.configure(bg='#2e2e2e',width='500px',height='500px')
+root.geometry("500x500")
 style = ttk.Style(root)
 
 # Created by Bennett Godinho-Nelson initial GUI
@@ -28,7 +28,7 @@ def upload_image():
         image_label.image = photo
 # Arlen Feng - Added take_image 
 def take_image(): 
-    capture_image();
+    capture_image()
     file_path = 'captured_image.jpg'
     if file_path:
         image = Image.open(file_path)
@@ -40,11 +40,14 @@ def take_image():
         image_label.image = photo
 
 def process_image():
-    b.config(text=randint(1,10))
+    if(image_label.cget('image') != ''):
+        b.config(text=randint(1,10))
+    else:
+        b.config(text='Please enter image.')
 
 def set_style():
     style.theme_use('clam')
-
+    
     # Modern dark styling for TButton
     style.configure('TButton', font=(globalFont, 12), foreground='white', background='#2e2e2e', padding=6)
     style.map('TButton', background=[('active', '#555555')])
@@ -57,7 +60,6 @@ def set_style():
 
 # Call set_style() to apply the styles
 set_style()
-
 root.attributes('-alpha', 0.95)
 a = ttk.Label(root, text="Upload Image for Car Classification", style="TLabel")
 b = ttk.Label(root, text="", style="TLabel")
