@@ -5,6 +5,11 @@ from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import font
 from gui_utilities import capture_image
+import sys
+sys.path.append('../model')
+
+from model.lite_test import analyze_image
+
 
 globalFont = 'Segoe UI Semibold'
 root = tk.Tk()
@@ -41,7 +46,7 @@ def take_image():
 
 def process_image():
     if(image_label.cget('image') != ''):
-        b.config(text=randint(1,10))
+        b.config(text=analyze_image(file_path))
     else:
         b.config(text='Please enter image.')
 
@@ -65,7 +70,7 @@ a = ttk.Label(root, text="Upload Image for Car Classification", style="TLabel")
 b = ttk.Label(root, text="", style="TLabel")
 
 capture_button = ttk.Button(root, text="Capture Image", command=take_image, style="TButton")
-
+file_path = ''
 upload_button = ttk.Button(root, text="Select Image", command=upload_image, style="TButton")
 image_label = tk.Label(root, bg='#2e2e2e')  # Set background to dark grey
 process_button = ttk.Button(root, text="Process Image", command=process_image, style="TButton")
