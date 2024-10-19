@@ -1,7 +1,19 @@
 from random import randint
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import ttk
 from PIL import Image, ImageTk
+from tkinter import font
+
+globalFont = 'Segoe UI Semibold'
+root = tk.Tk()
+root.title("Car Safety Detection")
+
+# Set window background to dark grey
+root.configure(bg='#2e2e2e')
+
+style = ttk.Style(root)
+
 # Created by Bennett Godinho-Nelson initial GUI
 def upload_image():
     file_path = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.png *.jpeg *.gif")])
@@ -15,22 +27,37 @@ def upload_image():
         image_label.image = photo
     
 def process_image():
-    b.config(text = randint(1,10))
+    b.config(text=randint(1,10))
 
+def set_style():
+    style.theme_use('clam')
 
-root = tk.Tk()
-root.title("Car Safety Detection")
-a = tk.Label(root, text ="Upload Image for Car Classification") 
-b = tk.Label(root, text="")
+    # Modern dark styling for TButton
+    style.configure('TButton', font=(globalFont, 12), foreground='white', background='#2e2e2e', padding=6)
+    style.map('TButton', background=[('active', '#555555')])
 
-upload_button = tk.Button(root, text="Select Image", command=upload_image)
-image_label = tk.Label(root)
-image_label.pack()
-process_button = tk.Button(root, text="Process Image", command=process_image)
-a.pack() 
-upload_button.pack()
-b.pack()
-process_button.pack()
+    # Modern dark styling for TLabel
+    style.configure('TLabel', font=(globalFont, 14), foreground='white', background='#2e2e2e')
 
+    # Modern dark styling for TEntry
+    style.configure('TEntry', foreground='white', background='#2e2e2e', fieldbackground='#2e2e2e', padding=5)
 
+# Call set_style() to apply the styles
+set_style()
+
+root.attributes('-alpha', 0.95)
+a = ttk.Label(root, text="Upload Image for Car Classification", style="TLabel")
+b = ttk.Label(root, text="", style="TLabel")
+upload_button = ttk.Button(root, text="Select Image", command=upload_image, style="TButton")
+image_label = tk.Label(root, bg='#2e2e2e')  # Set background to dark grey
+process_button = ttk.Button(root, text="Process Image", command=process_image, style="TButton")
+
+# Pack widgets
+a.pack(pady=10) 
+upload_button.pack(pady=10)
+image_label.pack(pady=10)
+b.pack(pady=10)
+process_button.pack(pady=10)
+
+# Start the main loop
 root.mainloop()
