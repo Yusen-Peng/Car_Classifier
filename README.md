@@ -7,4 +7,7 @@
 3. The image will be saved in the "view" directory as "captured_image.jpg".
 4. The image will replace the current image in the GUI interface. 
 
-Test Accuracy: 83.33%
+Training Accuracy: 83.33%
+
+
+
