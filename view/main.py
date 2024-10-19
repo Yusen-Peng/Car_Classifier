@@ -59,11 +59,12 @@ def take_image():
 def process_image():
     global file_path
     if(image_label.cget('image') != ''):
-        pred = analyze_image(file_path)
-        pred_s = "predicted result: {pred}"
-        # print("probability: distribution:")
+        prediction, prob_distribution  = analyze_image(file_path)
+        prob_distribution = prob_distribution.numpy().tolist()
+        print(prob_distribution)
+        pred_s = f"Predicted result: {prediction}\nProbability Distribution:\nSedan: {round(prob_distribution[0][0]*100, 3)}%\nPickup: {round(prob_distribution[0][1]*100, 3)}%\nMinivan: {round(prob_distribution[0][2]*100, 3)}%\nSUV: {round(prob_distribution[0][3], 3)}%"
         
-        b.config(text=pred)
+        b.config(text=pred_s)
     else:
         b.config(text='Please enter image.')
 
