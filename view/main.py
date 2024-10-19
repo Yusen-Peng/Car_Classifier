@@ -80,3 +80,4 @@ capture_button.pack(pady=10)
 
 # Start the main loop
 root.mainloop()
+
