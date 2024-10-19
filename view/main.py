@@ -4,6 +4,7 @@ from tkinter import filedialog
 from tkinter import ttk
 from PIL import Image, ImageTk
 from tkinter import font
+from gui_utilities import capture_image
 
 globalFont = 'Segoe UI Semibold'
 root = tk.Tk()
@@ -25,7 +26,19 @@ def upload_image():
         # Update the existing image_label with the new image
         image_label.config(image=photo)
         image_label.image = photo
-    
+# Arlen Feng - Added take_image 
+def take_image(): 
+    capture_image();
+    file_path = 'captured_image.jpg'
+    if file_path:
+        image = Image.open(file_path)
+        image = image.resize((200, 200))  # Resize the image
+        photo = ImageTk.PhotoImage(image)
+
+        # Update the existing image_label with the new image
+        image_label.config(image=photo)
+        image_label.image = photo
+
 def process_image():
     b.config(text=randint(1,10))
 
@@ -48,6 +61,9 @@ set_style()
 root.attributes('-alpha', 0.95)
 a = ttk.Label(root, text="Upload Image for Car Classification", style="TLabel")
 b = ttk.Label(root, text="", style="TLabel")
+
+capture_button = ttk.Button(root, text="Capture Image", command=take_image, style="TButton")
+
 upload_button = ttk.Button(root, text="Select Image", command=upload_image, style="TButton")
 image_label = tk.Label(root, bg='#2e2e2e')  # Set background to dark grey
 process_button = ttk.Button(root, text="Process Image", command=process_image, style="TButton")
@@ -58,6 +74,7 @@ upload_button.pack(pady=10)
 image_label.pack(pady=10)
 b.pack(pady=10)
 process_button.pack(pady=10)
+capture_button.pack(pady=10)
 
 # Start the main loop
 root.mainloop()
