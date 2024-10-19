@@ -2,12 +2,12 @@ from PIL import Image
 import numpy as np
 import torch
 import torch.nn as nn
-from lite import LITEModel
+import torch.nn.functional as F
+from model.lite import LITEModel
 
-if __name__ == '__main__':
+def analyze_image(file_path):
     # Load the PNG file
-    image_path = 'minivan.png'  # Replace with the path to your image
-    image = Image.open(image_path).convert('L')  # Convert to grayscale
+    image = Image.open(file_path).convert('L')  # Convert to grayscale
 
     # Convert image to numpy array
     image_array = np.array(image)
@@ -25,26 +25,19 @@ if __name__ == '__main__':
     model = LITEModel(length_TS=len(input_data), n_classes=4)
 
     # Load the model weights
-    model_path = 'car_lite_model.pth'
+    model_path = 'model/car_lite_model.pth'
     state_dict = torch.load(model_path)
     model.load_state_dict(state_dict)
     model.eval()  # Set the model to evaluation mode
-
-    print("Model loaded successfully.")
 
     # Make prediction using the model
     with torch.no_grad():  # Disable gradient calculation for inference
         prediction = model(input_data)
 
-    # Print the prediction
-    print("Prediction:", prediction)
+    # Get the predicted class index
+    predicted_class = torch.argmax(prediction, dim=1).item()  
 
-      # Get the predicted class index
-    predicted_class = torch.argmax(prediction, dim=1).item()
+    classes = ['Sedan', 'Pickup', 'Minivan', 'SUV']
 
+    return classes[predicted_class], F.softmax(prediction, dim=1)
 
-    classes = ['Sedan', 'Pickup', 'Minivan', 'SUV'] 
-
-
-    # Print the predicted class
-    print("Predicted class:", classes[predicted_class])
